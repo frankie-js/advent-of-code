@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -33,16 +34,22 @@ func main() {
 		elves = append(elves, intList)
 	}
 
-	var largestElfTotal int
+	var elfTotals []int
 	for _, elf := range elves {
-		result := 0
+		elfTotal := 0
 		for _, v := range elf {
-			result += v
+			elfTotal += v
 		}
-		if result > largestElfTotal {
-			largestElfTotal = result
-		}
+		elfTotals = append(elfTotals, elfTotal)
 	}
 
-	log.Println("Largest Elf Total", largestElfTotal)
+	sort.Ints(elfTotals)
+
+	largestElves := [3]int{elfTotals[len(elfTotals)-1], elfTotals[len(elfTotals)-2], elfTotals[len(elfTotals)-3]}
+	largestElvesTotal := 0
+	for _, v := range largestElves {
+		largestElvesTotal += v
+	}
+
+	log.Println("Largest Elves Total", largestElvesTotal)
 }
