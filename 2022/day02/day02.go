@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-// Rock 		= A, X, 1
-// Paper 		= B, Y, 2
-// Scissors = C, Z, 3
-// Win, Draw, Lose = 6, 3, 0
+// Rock 		= A, 1
+// Paper 		= B, 2
+// Scissors = C, 3
+// Lose, Draw, Win = 0 X, 3 Y, 6 Z
 
 func main() {
 	dat, err := os.ReadFile("input.txt")
@@ -31,36 +31,31 @@ func main() {
 	total := 0
 
 	for _, round := range actions {
-		roundTotal := 0
 		if round[1] == "X" {
-			roundTotal += 1
+			if round[0] == "A" {
+				total += 3
+			} else if round[0] == "B" {
+				total += 1
+			} else if round[0] == "C" {
+				total += 2
+			}
 		} else if round[1] == "Y" {
-			roundTotal += 2
+			if round[0] == "A" {
+				total += 3 + 1
+			} else if round[0] == "B" {
+				total += 3 + 2
+			} else if round[0] == "C" {
+				total += 3 + 3
+			}
 		} else if round[1] == "Z" {
-			roundTotal += 3
-		}
-
-		if round[0] == "A" {
-			if round[1] == "X" {
-				roundTotal += 3 // Draw
-			} else if round[1] == "Y" {
-				roundTotal += 6 // Win
-			}
-		} else if round[0] == "B" {
-			if round[1] == "Y" {
-				roundTotal += 3 // Draw
-			} else if round[1] == "Z" {
-				roundTotal += 6 // Win
-			}
-		} else if round[0] == "C" {
-			if round[1] == "Z" {
-				roundTotal += 3 // Draw
-			} else if round[1] == "X" {
-				roundTotal += 6 // Win
+			if round[0] == "A" {
+				total += 6 + 2
+			} else if round[0] == "B" {
+				total += 6 + 3
+			} else if round[0] == "C" {
+				total += 6 + 1
 			}
 		}
-
-		total += roundTotal
 	}
 
 	log.Println(total)
